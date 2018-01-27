@@ -18,23 +18,30 @@ var init = function(){
     });
     console.log(x);
   };
-  randomizer(questions);
+
 
   // Global Variables
-  var arrayCounter = 0;
-  var questionClock = 30;
+  var modalVisable= true;
+  var arrayCounter= 0;
+  var questionClock= 30;
   var intervalId;
   var tempAnswers= [];
+  var correctAnswerThisRound= "";
+  var playerCorrect;
+  var playerWrong;
+  var playerUnguessed;
+
 
   var propagateTempAnswers = function(){
     tempAnswers.push(questions[arrayCounter].wrongAnswer1);
     tempAnswers.push(questions[arrayCounter].wrongAnswer2);
     tempAnswers.push(questions[arrayCounter].wrongAnswer3);
     tempAnswers.push(questions[arrayCounter].correctAnswer);
+    correctAnswerThisRound = questions[arrayCounter].correctAnswer;
+    console.log("correct: 3" +correctAnswerThisRound);
     console.log("temp: " + tempAnswers);
     randomizer(tempAnswers);
   };
-  propagateTempAnswers();
 
 
 
@@ -44,9 +51,10 @@ var init = function(){
     $("h3").html(questions[arrayCounter].question);
     for (var i = 0; i < tempAnswers.length; i++) {
       var but = $("<button>");
+      var butId = "btn-"+(i+1);
       but.text(tempAnswers[i]);
       but.addClass("btn");
-      but.addClass("btn-"+(i+1));
+      but.attr("id", butId);
 
       $(".answersWrap").append(but);
     }
@@ -57,11 +65,7 @@ var init = function(){
       //finish game
       clearInterval(intervalId);
     }
-    tempAnswers=[];
-    propagateTempAnswers();
-
   };
-  population();
 
   var startCountdown = function() {
     intervalId = clearInterval(intervalId);
@@ -74,18 +78,74 @@ var init = function(){
     $("#clock").html("Clock: "+questionClock+"s");
     if (questionClock === 0) {
       startCountdown();
-      population();
+      playerUnguessed++;
       questionClock =30;
     }
   }
-  startCountdown();
 
+  //chosing answer functionality
+  $("body").on("click", "button.btn", function(){
+    console.log ("hi");
+    var selection = $(this).text();
+    console.log("selection: " +selection);
+    console.log("correct: " +correctAnswerThisRound);
+    if(selection === correctAnswerThisRound){
+      console.log("you win!");
+      playerCorrect++;
+      nextLevel();
+    }
+    else{
+      console.log("BOO!");
+      playerWrong++;
+      nextLevel();
+    }
+  });
   // If correct =correct modal with timeout, if incorrect a wrong modal with time out and a else (for time out) with a modal.
+
+
 
   // when the user finishes a tally of correct and wrong answers.
 
-  // reset of game on a click event.
+  //Toggle modal
+  var toggleModal = function(){
+    if (modalVisable === true) {
+      $(".modal").css('display', 'none');
+      modalVisable = false;
+    }
+    else{
+      $(".modal").css('display', 'flex');
+      modalVisable = true;
+    }
+  };
 
+  // reset & of game on a click event.
+  $("#modalButton").on("click", function(){
+    start();
+  });
+  var nextLevel= function(){
+    tempAnswers=[];
+    correctAnswerThisRound = "";
+    propagateTempAnswers();
+    population();
+    console.log("correct: "+playerCorrect);
+  };
+
+  // reset of game on a click event.
+  var start= function(){
+    playerCorrect= "";
+    playerWrong= "";
+    playerUnguessed="";
+    arrayCounter= 0;
+    questionClock= 30;
+    intervalId= "";
+    tempAnswers= [];
+    correctAnswerThisRound= "";
+    randomizer(questions);
+    propagateTempAnswers();
+    population();
+    toggleModal();
+    startCountdown();
+  };
 };
 
 //runs init onload

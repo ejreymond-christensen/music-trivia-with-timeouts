@@ -74,44 +74,44 @@ img{
     font-family: 'Fredericka the Great', cursive;
 }
 
-.btn-1{
+#btn-1{
   color: #F39C12;
   border-color: #F39C12;
   border: 2px solid #F39C12;
 }
-.btn-1:hover {
+#btn-1:hover {
     border-radius: 5px;
     background: #F39C12;
     color: #FBFCFC;
 }
 
-.btn-2{
+#btn-2{
   color: #3498DB;
   border-color: #3498DB;
   border: 2px solid #3498DB;
 }
-.btn-2:hover {
+#btn-2:hover {
     border-radius: 5px;
     background: #3498DB;
     color: #FBFCFC;
 }
-.btn-3{
+#btn-3{
   color: #2ECC71;
   border-color: #2ECC71;
   border: 2px solid #2ECC71;
 }
-.btn-3:hover {
+#btn-3:hover {
     border-radius: 5px;
     background: #2ECC71;
     color: #FBFCFC;
 }
-.btn-4{
+#btn-4{
   color: #8E44AD;
   border-color: #8E44AD;
   border: 2px solid #8E44AD;
 
 }
-.btn-4:hover {
+#btn-4:hover {
     border-radius: 5px;
     background: #8E44AD;
     color: #FBFCFC;
