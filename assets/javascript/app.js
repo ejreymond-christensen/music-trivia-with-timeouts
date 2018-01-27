@@ -68,6 +68,9 @@ var init = function(){
   };
 
   var startCountdown = function() {
+    console.log("ding");
+    questionClock =30;
+    $("#clock").html("Clock: "+questionClock+"s");
     intervalId = clearInterval(intervalId);
     intervalId = setInterval(decrement, 1000);
   };
@@ -77,7 +80,7 @@ var init = function(){
     //console.log("clock: "+questionClock);
     $("#clock").html("Clock: "+questionClock+"s");
     if (questionClock === 0) {
-      startCountdown();
+      displayTempModal("too slow");
       playerUnguessed++;
       questionClock =30;
     }
@@ -90,37 +93,42 @@ var init = function(){
     console.log("selection: " +selection);
     console.log("correct: " +correctAnswerThisRound);
     if(selection === correctAnswerThisRound){
-      console.log("you win!");
+      displayTempModal("Correct!");
       playerCorrect++;
-      nextLevel();
     }
     else{
-      console.log("BOO!");
+      displayTempModal("Sorry, wrong Answer!");
       playerWrong++;
-      nextLevel();
     }
   });
   // If correct =correct modal with timeout, if incorrect a wrong modal with time out and a else (for time out) with a modal.
+  var displayTempModal = function(x){
+    $("#modalTitle").html(x);
+    toggleModal();
+    setTimeout(timeoutModule, 4000);
+    setTimeout(startCountdown, 4000);
+  };
 
 
 
   // when the user finishes a tally of correct and wrong answers.
-
+  var timeoutModule = function(){
+    toggleModal();
+    nextLevel();
+  };
   //Toggle modal
   var toggleModal = function(){
-    if (modalVisable === true) {
-      $(".modal").css('display', 'none');
-      modalVisable = false;
-    }
-    else{
-      $(".modal").css('display', 'flex');
-      modalVisable = true;
-    }
+      $(".modal").toggleClass("hide");
+  };
+
+  var toggleButton = function(){
+    $("#modalButton").toggleClass("hide");
   };
 
   // reset & of game on a click event.
   $("#modalButton").on("click", function(){
     start();
+    toggleButton();
   });
   var nextLevel= function(){
     tempAnswers=[];

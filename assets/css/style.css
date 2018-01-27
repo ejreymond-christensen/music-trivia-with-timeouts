@@ -148,3 +148,7 @@ img{
     border-radius: 5px;
     background: #3498DB;
     color: #FBFCFC;
+  }
+  .hide{
+    display: none;
+  }
