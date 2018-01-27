@@ -20,9 +20,51 @@ var init = function(){
   };
   questionRandomizer();
 
-  // append the array to the HTML;
 
-  // have an on timer event that decends to 0 waitng for a click event.
+  var answerRandomizer = function(){
+    var tempAnswers = questions[arrayCounter].answers;
+    tempAnswers= tempAnswers.sort(function(a, b){
+       return 0.5 - Math.random();
+    });
+    console.log(tempAnswers);
+  };
+
+  // Global Variables
+  var arrayCounter = 0;
+  var questionClock = 30;
+  var toggleTimer;
+  var intervalId;
+
+  // append the array to the HTML;
+  var population = function(){
+    $("h3").html(questions[arrayCounter].question);
+    arrayCounter++;
+    console.log(arrayCounter);
+    if (questions.length === arrayCounter){
+      count= 0;
+      //finish game
+      clearInterval(intervalId);
+    }
+  };
+
+
+  var startCountdown = function() {
+    intervalId = clearInterval(intervalId);
+    intervalId = setInterval(decrement, 1000);
+  };
+
+  function decrement() {
+    questionClock--;
+    console.log("clock: "+questionClock);
+    $("#clock").html("Clock: "+questionClock+"s");
+    if (questionClock === 0) {
+      startCountdown();
+      population();
+      questionClock =30;
+    }
+  }
+
+  startCountdown();
 
   // If correct =correct modal with timeout, if incorrect a wrong modal with time out and a else (for time out) with a modal.
 

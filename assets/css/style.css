@@ -27,6 +27,7 @@ h3{
   display: block;
   margin: auto;
   background-color: #FFF;
+  position: relative;
 }
 
 
@@ -38,6 +39,19 @@ h3{
     padding: 4px 15px;
 }
 
+#clock{
+  background-color: black;
+  padding: 2px;
+  color: #FBFCFC;
+  font-size: 25px;
+  min-width: 118px;
+  min-height: 25px;
+  opacity: .7;
+  position: absolute;
+  top: 271px;
+  right: 0;
+  border-top-left-radius: 5px
+}
 img{
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
