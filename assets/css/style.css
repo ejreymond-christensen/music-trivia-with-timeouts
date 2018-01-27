@@ -3,7 +3,7 @@ html{
   font-family: 'Fredericka the Great', cursive;
   background-color: #F7F9F9;
 }
-.container{
+.containerWindow{
   display: block;
   margin: auto;
   width: 600px;
@@ -65,9 +65,9 @@ img{
 }
 
 .btn {
-    width: 49%;
+    width: 48%;
     border-radius: 5px;
-    margin: 4px auto;
+    margin: 4px;
     background-color: #FBFCFC;
     padding: 14px 28px;
     font-size: 14px;
@@ -116,3 +116,35 @@ img{
     background: #8E44AD;
     color: #FBFCFC;
 }
+
+.modal {
+    display: flex;
+    flex-flow: column;
+    z-index: 1;
+    position: absolute;
+	  top: 0;
+	  left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #FFF;
+    text-align: center;
+    padding: auto;
+    align-items: center;
+    justify-content: center;
+}
+#modalTitle{
+  font-size: 36px;
+}
+#modalButton{
+  font-size: 26px;
+  margin-top: 15px;
+  color: #3498DB;
+  border-color: #3498DB;
+  border: 2px solid #3498DB;
+  border-radius: 5px;
+  font-family: 'Fredericka the Great', cursive;
+}
+#modalButton:hover {
+    border-radius: 5px;
+    background: #3498DB;
+    color: #FBFCFC;
