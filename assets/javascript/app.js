@@ -1,4 +1,3 @@
-
 var init = function(){
 // Array of questions with wrong answers and a correct one.
   var questions = [
@@ -17,9 +16,7 @@ var init = function(){
     x= x.sort(function(a, b){
        return 0.5 - Math.random();
     });
-    console.log(x);
   };
-
 
   // Global Variables
   var arrayCounter= 0;
@@ -33,7 +30,7 @@ var init = function(){
   var audio;
   var photo;
 
-
+  //This pushes only the answers into a tempAnswers array, and sets the img and audio file vars.
   var propagateTempAnswers = function(){
     tempAnswers.push(questions[arrayCounter].wrongAnswer1);
     tempAnswers.push(questions[arrayCounter].wrongAnswer2);
@@ -42,14 +39,12 @@ var init = function(){
     correctAnswerThisRound = questions[arrayCounter].correctAnswer;
     audio= new Audio(questions[arrayCounter].audio);
     photo= questions[arrayCounter].photo;
-    console.log("correct: 3" +correctAnswerThisRound);
-    console.log("temp: " + tempAnswers);
     randomizer(tempAnswers);
   };
 
 
 
-  // append the array to the HTML;
+  // appends info to HTML;
   var population = function(){
     $(".answersWrap").empty();
     $("h3").html(questions[arrayCounter].question);
@@ -64,11 +59,10 @@ var init = function(){
       $(".answersWrap").append(but);
     }
     arrayCounter++;
-    console.log(arrayCounter);
   };
 
+  // function resets and starts countdown clock, also appends clock to DOM
   var startCountdown = function() {
-    console.log("ding");
     questionClock =30;
     audio.play();
     $("#clock").html("Clock: "+questionClock+"s");
@@ -76,29 +70,23 @@ var init = function(){
     intervalId = setInterval(decrement, 1000);
   };
 
-  var stopCountdown = function(){
-    intervalId = clearInterval(intervalId);
-  };
-
+  // function sets the decrement params
   function decrement() {
     questionClock--;
     //console.log("clock: "+questionClock);
     $("#clock").html("Clock: "+questionClock+"s");
     if (questionClock === 0) {
-        displayTempModal("too slow");
-        audio.pause();
-        playerUnguessed++;
-        questionClock =30;
+      displayTempModal("too slow");
+      audio.pause();
+      playerUnguessed++;
+      questionClock =30;
     }
   }
 
   //chosing answer functionality
   $("body").on("click", "button.btn", function(){
-    console.log ("hi");
     var selection = $(this).text();
     audio.pause();
-    console.log("selection: " +selection);
-    console.log("correct: " +correctAnswerThisRound);
     if(selection === correctAnswerThisRound){
       displayTempModal("Correct!");
       playerCorrect++;
@@ -108,6 +96,7 @@ var init = function(){
       playerWrong++;
     }
   });
+
   // If correct =correct modal with timeout, if incorrect a wrong modal with time out and a else (for time out) with a modal.
   var displayTempModal = function(x){
     $("#modalTitle").html(x);
@@ -118,6 +107,7 @@ var init = function(){
     }
   };
 
+  // displays the final modal with results and ability to reset the game
   var displayResultsModal = function(){
     $("#modalTitle").html("Results");
     $(".results").append('<p>Correctly guessed: '+playerCorrect+'</p>');
@@ -127,19 +117,18 @@ var init = function(){
     toggleButton();
   };
 
-
-
   // when the user finishes a tally of correct and wrong answers.
   var timeoutModule = function(){
-    console.log("arrayCounter: "+arrayCounter);
     toggleModal();
     nextLevel();
   };
+
   //Toggle modal
   var toggleModal = function(){
       $(".modal").toggleClass("hide");
   };
 
+  //Toggles button
   var toggleButton = function(){
     $("#modalButton").toggleClass("hide");
   };
@@ -149,9 +138,10 @@ var init = function(){
     start();
     toggleButton();
   });
+
+  //Resets the params for next question. If all questions have run, stops countdown and displays results modal.
   var nextLevel= function(){
     if (questions.length === arrayCounter){
-      count= 0;
       displayResultsModal();
       intervalId = clearInterval(intervalId);
       clearInterval(intervalId);
@@ -163,7 +153,6 @@ var init = function(){
       correctAnswerThisRound = "";
       propagateTempAnswers();
       population();
-      console.log("correct: "+playerCorrect);
       clearInterval(intervalId);
     }
   };
