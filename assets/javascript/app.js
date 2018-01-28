@@ -2,8 +2,8 @@
 var init = function(){
 // Array of questions with wrong answers and a correct one.
   var questions = [
-    {"question": "This is a question", "correctAnswer": "snarf", "wrongAnswer1": "tygra", "wrongAnswer2": "cheetarah", "wrongAnswer3": "panthero" },
-    {"question": "This is another question", "correctAnswer": "strider", "wrongAnswer1": "frodo", "wrongAnswer2": "samwise", "wrongAnswer3": "gandalf" },
+    {"question": "Who sings Wuthering Heights? Such a badass song!", "correctAnswer": "Kate Bush", "wrongAnswer1": "Susan Vega", "wrongAnswer2": "Bonnie Tyler", "wrongAnswer3": "Björk", "audio": "assets/audio/kb.mp3", "photo": "assets/imgs/kb.jpg"},
+    {"question": "Who is the master at weaving dreams?", "correctAnswer": "Gary Wright", "wrongAnswer1": "Yes!", "wrongAnswer2": "Seals and Crofts", "wrongAnswer3": "E-L-P", "audio": "assets/audio/dream.mp3", "photo": "assets/imgs/dream.jpeg" },
     {"question": "This is a new question", "correctAnswer": "tyrion", "wrongAnswer1": "jaime", "wrongAnswer2": "cersie", "wrongAnswer3": "robb" },
     {"question": "This is a newer question", "correctAnswer": "arya", "wrongAnswer1": "sansa", "wrongAnswer2": "brann", "wrongAnswer3": "robb" },
     {"question": "Question anew", "correctAnswer": "snarf", "wrongAnswer1": "snarfsnarf", "wrongAnswer2": "snar", "wrongAnswer3": "sn" },
@@ -30,6 +30,8 @@ var init = function(){
   var playerCorrect;
   var playerWrong;
   var playerUnguessed;
+  var audio;
+  var photo;
 
 
   var propagateTempAnswers = function(){
@@ -38,6 +40,8 @@ var init = function(){
     tempAnswers.push(questions[arrayCounter].wrongAnswer3);
     tempAnswers.push(questions[arrayCounter].correctAnswer);
     correctAnswerThisRound = questions[arrayCounter].correctAnswer;
+    audio= new Audio(questions[arrayCounter].audio);
+    photo= questions[arrayCounter].photo;
     console.log("correct: 3" +correctAnswerThisRound);
     console.log("temp: " + tempAnswers);
     randomizer(tempAnswers);
@@ -49,6 +53,7 @@ var init = function(){
   var population = function(){
     $(".answersWrap").empty();
     $("h3").html(questions[arrayCounter].question);
+    $("img").attr("src", photo);
     for (var i = 0; i < tempAnswers.length; i++) {
       var but = $("<button>");
       var butId = "btn-"+(i+1);
@@ -70,6 +75,7 @@ var init = function(){
   var startCountdown = function() {
     console.log("ding");
     questionClock =30;
+    audio.play();
     $("#clock").html("Clock: "+questionClock+"s");
     intervalId = clearInterval(intervalId);
     intervalId = setInterval(decrement, 1000);
@@ -81,6 +87,7 @@ var init = function(){
     $("#clock").html("Clock: "+questionClock+"s");
     if (questionClock === 0) {
       displayTempModal("too slow");
+      audio.pause();
       playerUnguessed++;
       questionClock =30;
     }
@@ -90,6 +97,7 @@ var init = function(){
   $("body").on("click", "button.btn", function(){
     console.log ("hi");
     var selection = $(this).text();
+    audio.pause();
     console.log("selection: " +selection);
     console.log("correct: " +correctAnswerThisRound);
     if(selection === correctAnswerThisRound){
