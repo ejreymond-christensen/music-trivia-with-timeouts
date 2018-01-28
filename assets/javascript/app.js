@@ -4,13 +4,13 @@ var init = function(){
   var questions = [
     {"question": "Who sings Wuthering Heights? Such a badass song!", "correctAnswer": "Kate Bush", "wrongAnswer1": "Susan Vega", "wrongAnswer2": "Bonnie Tyler", "wrongAnswer3": "Björk", "audio": "assets/audio/kb.mp3", "photo": "assets/imgs/kb.jpg"},
     {"question": "Who is the master at weaving dreams?", "correctAnswer": "Gary Wright", "wrongAnswer1": "Yes!", "wrongAnswer2": "Seals and Crofts", "wrongAnswer3": "E-L-P", "audio": "assets/audio/dream.mp3", "photo": "assets/imgs/dream.jpeg" },
-    {"question": "Who's gonna sock it to the boys?", "correctAnswer": "Yelle", "wrongAnswer1": "Alizé", "wrongAnswer2": "Brigitte Bardot", "wrongAnswer3": "-M-" , "audio": "#", "photo": "assets/imgs/yelle.jpg"},
-    {"question": "Fresh French beats by...", "correctAnswer": "Justice", "wrongAnswer1": "Daft Punk", "wrongAnswer2": "French Horn Rebellion", "wrongAnswer3": "-M-", "audio": "#", "photo": "assets/imgs/justice.jpeg" },
-    {"question": "Who's gonna take you home when it's too late?", "correctAnswer": "The Cars", "wrongAnswer1": "The Romantics", "wrongAnswer2": "Cheap Trick", "wrongAnswer3": "Loverboy", "audio": "#", "photo": "assets/imgs/cars.jpg" },
-    {"question": "Who's got the Beat?", "correctAnswer": "Miami Sound Machine", "wrongAnswer1": "Martika", "wrongAnswer2": "Exposé", "wrongAnswer3": "Paula Abdul", "audio": "#", "photo": "assets/imgs/msm.jpg" },
-    {"question": "Tejano legend, before Queen B", "correctAnswer": "Selena", "wrongAnswer1": "Gloria Estefani", "wrongAnswer2": "Paulina Rubio", "wrongAnswer3": "Jennifer Lopez" , "audio": "#", "photo": "assets/imgs/selena.jpg"},
-    {"question": "Urgent! Who is this Juke Box hero?", "correctAnswer": "Foreigner", "wrongAnswer1": "Journey", "wrongAnswer2": "Cheap Trick", "wrongAnswer3": "Styx" , "audio": "#", "photo": "assets/imgs/foreigner.jpg"},
-    {"question": "Pinkfloyd Question", "correctAnswer": "Pink Floyd", "wrongAnswer1": "Yes!", "wrongAnswer2": "King Crimson", "wrongAnswer3": "E-L-P" , "audio": "#", "photo": "assets/imgs/pinkf.jpg"}
+    {"question": "Who's gonna sock it to the boys?", "correctAnswer": "Yelle", "wrongAnswer1": "Alizé", "wrongAnswer2": "Brigitte Bardot", "wrongAnswer3": "-M-" , "audio": "assets/audio/yelle.mp3", "photo": "assets/imgs/yelle.jpg"},
+    {"question": "Fresh French beats by...", "correctAnswer": "Justice", "wrongAnswer1": "Daft Punk", "wrongAnswer2": "French Horn Rebellion", "wrongAnswer3": "-M-", "audio": "assets/audio/justice.mp3", "photo": "assets/imgs/justice.jpeg" },
+    {"question": "Who's gonna take you home when it's too late?", "correctAnswer": "The Cars", "wrongAnswer1": "The Romantics", "wrongAnswer2": "Cheap Trick", "wrongAnswer3": "Loverboy", "audio": "assets/audio/cars.mp3", "photo": "assets/imgs/cars.jpg" },
+    {"question": "Who's got the Beat?", "correctAnswer": "Miami Sound Machine", "wrongAnswer1": "Martika", "wrongAnswer2": "Exposé", "wrongAnswer3": "Paula Abdul", "audio": "assets/audio/msmdr.mp3", "photo": "assets/imgs/msm.jpg" },
+    {"question": "Texas legend... como la flor", "correctAnswer": "Selena", "wrongAnswer1": "Gloria Estefani", "wrongAnswer2": "Paulina Rubio", "wrongAnswer3": "Jennifer Lopez" , "audio": "assets/audio/selena.mp3", "photo": "assets/imgs/selena.jpg"},
+    {"question": "Urgent! Who is this Juke Box hero?", "correctAnswer": "Foreigner", "wrongAnswer1": "Journey", "wrongAnswer2": "Cheap Trick", "wrongAnswer3": "Styx" , "audio": "assets/audio/foreigner.mp3", "photo": "assets/imgs/foreigner.jpg"},
+    {"question": "Meddle in Saint Tropez", "correctAnswer": "Pink Floyd", "wrongAnswer1": "Yes!", "wrongAnswer2": "King Crimson", "wrongAnswer3": "E-L-P" , "audio": "assets/audio/pinkf.mp3", "photo": "assets/imgs/pinkf.jpg"}
   ];
   // randomize the Array (hangman)
   var randomizer = function(x){
@@ -76,6 +76,10 @@ var init = function(){
     intervalId = setInterval(decrement, 1000);
   };
 
+  var stopCountdown = function(){
+    intervalId = clearInterval(intervalId);
+  };
+
   function decrement() {
     questionClock--;
     //console.log("clock: "+questionClock);
@@ -109,7 +113,9 @@ var init = function(){
     $("#modalTitle").html(x);
     toggleModal();
     setTimeout(timeoutModule, 4000);
-    setTimeout(startCountdown, 4000);
+    if (questions.length > arrayCounter){
+      setTimeout(startCountdown, 4000);
+    }
   };
 
   var displayResultsModal = function(){
@@ -147,7 +153,10 @@ var init = function(){
     if (questions.length === arrayCounter){
       count= 0;
       displayResultsModal();
+      intervalId = clearInterval(intervalId);
       clearInterval(intervalId);
+      clearTimeout(startCountdown);
+      clearTimeout(timeoutModule);
     }
     else{
       tempAnswers=[];
