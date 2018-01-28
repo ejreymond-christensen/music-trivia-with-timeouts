@@ -4,12 +4,13 @@ var init = function(){
   var questions = [
     {"question": "Who sings Wuthering Heights? Such a badass song!", "correctAnswer": "Kate Bush", "wrongAnswer1": "Susan Vega", "wrongAnswer2": "Bonnie Tyler", "wrongAnswer3": "Björk", "audio": "assets/audio/kb.mp3", "photo": "assets/imgs/kb.jpg"},
     {"question": "Who is the master at weaving dreams?", "correctAnswer": "Gary Wright", "wrongAnswer1": "Yes!", "wrongAnswer2": "Seals and Crofts", "wrongAnswer3": "E-L-P", "audio": "assets/audio/dream.mp3", "photo": "assets/imgs/dream.jpeg" },
-    {"question": "This is a new question", "correctAnswer": "tyrion", "wrongAnswer1": "jaime", "wrongAnswer2": "cersie", "wrongAnswer3": "robb" },
-    {"question": "This is a newer question", "correctAnswer": "arya", "wrongAnswer1": "sansa", "wrongAnswer2": "brann", "wrongAnswer3": "robb" },
-    {"question": "Question anew", "correctAnswer": "snarf", "wrongAnswer1": "snarfsnarf", "wrongAnswer2": "snar", "wrongAnswer3": "sn" },
-    {"question": "Boring Question", "correctAnswer": "chewbaka", "wrongAnswer1": "solo", "wrongAnswer2": "soulow", "wrongAnswer3": "so-low" },
-    {"question": "Mario Question", "correctAnswer": "Yoshi", "wrongAnswer1": "toad", "wrongAnswer2": "luigi", "wrongAnswer3": "mario" },
-    {"question": "This question", "correctAnswer": "foo", "wrongAnswer1": "bar", "wrongAnswer2": "foobar", "wrongAnswer3": "foofoobar" },
+    {"question": "Who's gonna sock it to the boys?", "correctAnswer": "Yelle", "wrongAnswer1": "Alizé", "wrongAnswer2": "Brigitte Bardot", "wrongAnswer3": "-M-" , "audio": "#", "photo": "assets/imgs/yelle.jpg"},
+    {"question": "Fresh French beats by...", "correctAnswer": "Justice", "wrongAnswer1": "Daft Punk", "wrongAnswer2": "French Horn Rebellion", "wrongAnswer3": "-M-", "audio": "#", "photo": "assets/imgs/justice.jpeg" },
+    {"question": "Who's gonna take you home when it's too late?", "correctAnswer": "The Cars", "wrongAnswer1": "The Romantics", "wrongAnswer2": "Cheap Trick", "wrongAnswer3": "Loverboy", "audio": "#", "photo": "assets/imgs/cars.jpg" },
+    {"question": "Who's got the Beat?", "correctAnswer": "Miami Sound Machine", "wrongAnswer1": "Martika", "wrongAnswer2": "Exposé", "wrongAnswer3": "Paula Abdul", "audio": "#", "photo": "assets/imgs/msm.jpg" },
+    {"question": "Tejano legend, before Queen B", "correctAnswer": "Selena", "wrongAnswer1": "Gloria Estefani", "wrongAnswer2": "Paulina Rubio", "wrongAnswer3": "Jennifer Lopez" , "audio": "#", "photo": "assets/imgs/selena.jpg"},
+    {"question": "Urgent! Who is this Juke Box hero?", "correctAnswer": "Foreigner", "wrongAnswer1": "Journey", "wrongAnswer2": "Cheap Trick", "wrongAnswer3": "Styx" , "audio": "#", "photo": "assets/imgs/foreigner.jpg"},
+    {"question": "Pinkfloyd Question", "correctAnswer": "Pink Floyd", "wrongAnswer1": "Yes!", "wrongAnswer2": "King Crimson", "wrongAnswer3": "E-L-P" , "audio": "#", "photo": "assets/imgs/pinkf.jpg"}
   ];
   // randomize the Array (hangman)
   var randomizer = function(x){
@@ -21,7 +22,6 @@ var init = function(){
 
 
   // Global Variables
-  var modalVisable= true;
   var arrayCounter= 0;
   var questionClock= 30;
   var intervalId;
@@ -65,11 +65,6 @@ var init = function(){
     }
     arrayCounter++;
     console.log(arrayCounter);
-    if (questions.length === arrayCounter){
-      count= 0;
-      //finish game
-      clearInterval(intervalId);
-    }
   };
 
   var startCountdown = function() {
@@ -86,10 +81,10 @@ var init = function(){
     //console.log("clock: "+questionClock);
     $("#clock").html("Clock: "+questionClock+"s");
     if (questionClock === 0) {
-      displayTempModal("too slow");
-      audio.pause();
-      playerUnguessed++;
-      questionClock =30;
+        displayTempModal("too slow");
+        audio.pause();
+        playerUnguessed++;
+        questionClock =30;
     }
   }
 
@@ -105,7 +100,7 @@ var init = function(){
       playerCorrect++;
     }
     else{
-      displayTempModal("Sorry, wrong Answer!");
+      displayTempModal(correctAnswerThisRound +" is really disappointed in you...");
       playerWrong++;
     }
   });
@@ -117,10 +112,20 @@ var init = function(){
     setTimeout(startCountdown, 4000);
   };
 
+  var displayResultsModal = function(){
+    $("#modalTitle").html("Results");
+    $(".results").append("Correctly Guessed: "+playerCorrect);
+    $(".results").append("Wrong Guesses: "+playerWrong);
+    $(".results").append("Unguessed: "+playerUnguessed);
+    toggleModal();
+    toggleButton();
+  };
+
 
 
   // when the user finishes a tally of correct and wrong answers.
   var timeoutModule = function(){
+    console.log("arrayCounter: "+arrayCounter);
     toggleModal();
     nextLevel();
   };
@@ -139,11 +144,18 @@ var init = function(){
     toggleButton();
   });
   var nextLevel= function(){
-    tempAnswers=[];
-    correctAnswerThisRound = "";
-    propagateTempAnswers();
-    population();
-    console.log("correct: "+playerCorrect);
+    if (questions.length === arrayCounter){
+      count= 0;
+      displayResultsModal();
+      clearInterval(intervalId);
+    }
+    else{
+      tempAnswers=[];
+      correctAnswerThisRound = "";
+      propagateTempAnswers();
+      population();
+      console.log("correct: "+playerCorrect);
+    }
   };
 
   // reset of game on a click event.
@@ -161,6 +173,7 @@ var init = function(){
     population();
     toggleModal();
     startCountdown();
+    $(".results").empty();
   };
 };
 
