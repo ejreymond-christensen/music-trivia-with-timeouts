@@ -27,9 +27,9 @@ var init = function(){
   var intervalId;
   var tempAnswers= [];
   var correctAnswerThisRound= "";
-  var playerCorrect;
-  var playerWrong;
-  var playerUnguessed;
+  var playerCorrect = 0;
+  var playerWrong = 0;
+  var playerUnguessed =0;
   var audio;
   var photo;
 
@@ -114,9 +114,9 @@ var init = function(){
 
   var displayResultsModal = function(){
     $("#modalTitle").html("Results");
-    $(".results").append("Correctly Guessed: "+playerCorrect);
-    $(".results").append("Wrong Guesses: "+playerWrong);
-    $(".results").append("Unguessed: "+playerUnguessed);
+    $(".results").append('<p>Correctly guessed: '+playerCorrect+'</p>');
+    $(".results").append('<p>Incorrect guesses: '+playerWrong+'</p>');
+    $(".results").append('<p>Unguessed: '+playerUnguessed+'</p>');
     toggleModal();
     toggleButton();
   };
@@ -155,19 +155,20 @@ var init = function(){
       propagateTempAnswers();
       population();
       console.log("correct: "+playerCorrect);
+      clearInterval(intervalId);
     }
   };
 
   // reset of game on a click event.
   var start= function(){
-    playerCorrect= "";
-    playerWrong= "";
-    playerUnguessed="";
+    playerCorrect= 0;
+    playerWrong= 0;
+    playerUnguessed=0;
     arrayCounter= 0;
     questionClock= 30;
-    intervalId= "";
     tempAnswers= [];
     correctAnswerThisRound= "";
+    intervalId = clearInterval(intervalId);
     randomizer(questions);
     propagateTempAnswers();
     population();
