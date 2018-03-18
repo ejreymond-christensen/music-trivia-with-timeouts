@@ -1,4 +1,4 @@
-# ut-trivia-game
+# Music Trivia Game
 Trivia game using JavaScript and jQuery
 
 ## Super Cool Music Quiz
@@ -11,6 +11,6 @@ Turn up your audio. Click the start button and answer the quiz. Audio clips will
 
 ## How to run the program
 
-You can simply go to https://ejreymond-christensen.github.io/ut-trivia-game . Or you can go to ut-trivia-game repo and download the repo. Simply open `index.html` in your favorite browser and start the quiz.
+You can simply go to https://ejreymond-christensen.github.io/music-trivia-with-timeouts/ . Or you can go to 'music-trivia-with-timeouts' repo and download the repo. Simply open `index.html` in your favorite browser and start the quiz.
 
 **Rock on**
