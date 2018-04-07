@@ -13,4 +13,4 @@ Turn up your audio. Click the start button and answer the quiz. Audio clips will
 
 You can simply go to https://ejreymond-christensen.github.io/music-trivia-with-timeouts/ . Or you can go to 'music-trivia-with-timeouts' repo and download the repo. Simply open `index.html` in your favorite browser and start the quiz.
 
-**Rock on**
+**Rock on!**
